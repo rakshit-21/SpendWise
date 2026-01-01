@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from "./../assets/Logo.png"
 import {
     LayoutDashboard,
@@ -7,6 +7,8 @@ import {
     ArrowRightLeft,
     HelpCircleIcon
 } from "lucide-react"
+
+
 
 const navLinks=[
     {
@@ -33,6 +35,7 @@ const navLinks=[
 ]
 
 function NavigationBar(){
+    const[activeNavIndex, setActiveNavIndex]= useState(0);
     return <div className="px-10 py-12 flex flex-col border border-r-2 w-1/5 h-screen">
         <div className="logo-div flex space-x-3 items-center">
             <img src={Logo}/>
@@ -40,13 +43,24 @@ function NavigationBar(){
 
             </div>
             <div className='mt-9 flex flex-col space-y-8'>
-                {navLinks.map((item,index)=>
-                <div key={index}>
-                    <item.icon/>
-                    <span>{item?.name}</span>
-                    
+                {navLinks.map((item, index) => {
+  return (
+    <div
+      key={index}
+      onClick={() => setActiveNavIndex(index)}
+       className={
+      'flex space-x-3 p-2 rounded cursor-pointer ' +
+      (activeNavIndex === index
+        ? 'bg-red-400 text-white font-semibold'
+        : 'hover:bg-gray-100')
+    }
+    >
+      <item.icon />
+      <span>{item.name}</span>
+    </div>
+  )
+})}
 
-            </div>)}
         </div>
         </div>
     
