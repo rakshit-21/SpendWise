@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Logo from "./../assets/Logo.png"
+import RightArrow from "./../assets/icons/rightArrow.svg"
 import {
     LayoutDashboard,
     Clock3,
@@ -36,10 +37,15 @@ const navLinks=[
 
 function NavigationBar(){
     const[activeNavIndex, setActiveNavIndex]= useState(0);
-    return <div className="px-10 py-12 flex flex-col border border-r-2 w-1/5 h-screen">
+    return <div className="relative px-10 py-12 flex flex-col border border-r-2 w-1/5 h-screen">
         <div className="logo-div flex space-x-3 items-center">
             <img src={Logo}/>
             <span>Money Tracker</span>
+
+            <div className="w-5 h-5 bg-red-400 rounded-full absolute -right-2.5 top-12 flex items-center justify-center "></div>
+             
+           
+
 
             </div>
             <div className='mt-9 flex flex-col space-y-8'>
