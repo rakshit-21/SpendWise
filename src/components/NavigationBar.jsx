@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Logo from "./../assets/Logo.png"
 import RightArrow from "./../assets/icons/rightArrow.svg"
+import {motion} from "framer-motion"
 import {
     LayoutDashboard,
     Clock3,
@@ -33,16 +34,39 @@ const navLinks=[
         icon: HelpCircleIcon
     }
 
-]
+];
+
+const variants = {
+  expanded: { x: 0 },
+  nonExpanded: { x: "-75%" }
+}
+
 
 function NavigationBar(){
     const[activeNavIndex, setActiveNavIndex]= useState(0);
-    return <div className="relative px-10 py-12 flex flex-col border border-r-2 w-1/5 h-screen">
+    const[isExpanded, setIsExpanded]= useState(true);
+    return(
+   <motion.div
+  variants={variants}
+  initial="expanded"
+  animate={isExpanded ? "expanded" : "nonExpanded"}
+  transition={{ duration: 0.3, ease: "easeInOut" }}
+  className="relative w-64 px-10 py-12 flex flex-col border-r h-screen overflow-hidden bg-white"
+>
+
+
         <div className="logo-div flex space-x-3 items-center">
             <img src={Logo}/>
             <span>Money Tracker</span>
+            
 
-            <div className="w-5 h-5 bg-red-400 rounded-full absolute -right-2.5 top-12 flex items-center justify-center "></div>
+            <motion.div onClick={()=>setIsExpanded(!isExpanded)} 
+             animate={{ rotate: isExpanded ? 0 : 180 }}
+  transition={{ duration: 0.3 }}
+            className="w-5 h-5 bg-red-400 rounded-full absolute -right-2.5 top-12 flex items-center justify-center">
+  <img src={RightArrow} alt="Arrow" className="w-3 h-3" />
+</motion.div>
+
              
            
 
@@ -68,7 +92,8 @@ function NavigationBar(){
 })}
 
         </div>
-        </div>
+        </motion.div>
+    )
     
 }
 export default NavigationBar
