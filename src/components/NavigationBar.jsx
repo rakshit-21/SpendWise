@@ -1,99 +1,109 @@
-import React, { useState } from 'react'
-import Logo from "./../assets/Logo.png"
-import RightArrow from "./../assets/icons/rightArrow.svg"
-import {motion} from "framer-motion"
+import React, { useState, useEffect } from "react";
+import Logo from "../assets/Logo.png";
 import {
-    LayoutDashboard,
-    Clock3,
-    BarChart2,
-    ArrowRightLeft,
-    HelpCircleIcon
-} from "lucide-react"
+  ArrowLeftRightIcon,
+  BarChart3Icon,
+  Clock4Icon,
+  LayoutDashboard,
+  HelpCircleIcon,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
-
-
-const navLinks=[
-    {
-        name: "Dashboard",
-        icon: LayoutDashboard
-    },
-    {
-        name: "Activity",
-        icon: Clock3
-    },
-    {
-        name: "Analytics",
-        icon: BarChart2
-    },
-    {
-        name: "Transactions",
-        icon: ArrowRightLeft
-    },
-    {
-        name: "Help Center",
-        icon: HelpCircleIcon
-    }
-
-];
+import RightArrowIcon from "./../assets/icons/rightArrow.svg";
 
 const variants = {
-  expanded: { x: 0 },
-  nonExpanded: { x: "-75%" }
-}
+  // todo: change expanded to 30% and nonexpanded to %6
+  expanded: { width: "220px" },
+  nonexpanded: { width: "60px" },
+};
 
+const navLinks = [
+  {
+    link: "Dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    link: "Activity",
+    icon: Clock4Icon,
+  },
+  {
+    link: "Analytics",
+    icon: BarChart3Icon,
+  },
+  {
+    link: "Transactions",
+    icon: ArrowLeftRightIcon,
+  },
+  {
+    link: "Support",
+    icon: HelpCircleIcon,
+  },
+];
 
-function NavigationBar(){
-    const[activeNavIndex, setActiveNavIndex]= useState(0);
-    const[isExpanded, setIsExpanded]= useState(true);
-    return(
-   <motion.div
-  variants={variants}
-  initial="expanded"
-  animate={isExpanded ? "expanded" : "nonExpanded"}
-  transition={{ duration: 0.3, ease: "easeInOut" }}
-  className="relative w-64 px-10 py-12 flex flex-col border-r h-screen overflow-hidden bg-white"
->
+function Navbar() {
+  // todo: change to true
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
 
+  // screen resize
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-        <div className="logo-div flex space-x-3 items-center">
-            <img src={Logo}/>
-            <span>Money Tracker</span>
-            
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      if (windowWidth < 768) {
+        setIsExpanded(false);
+      }
+    };
 
-            <motion.div onClick={()=>setIsExpanded(!isExpanded)} 
-             animate={{ rotate: isExpanded ? 0 : 180 }}
-  transition={{ duration: 0.3 }}
-            className="w-5 h-5 bg-red-400 rounded-full absolute -right-2.5 top-12 flex items-center justify-center">
-  <img src={RightArrow} alt="Arrow" className="w-3 h-3" />
-</motion.div>
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-             
-           
-
-
-            </div>
-            <div className='mt-9 flex flex-col space-y-8'>
-                {navLinks.map((item, index) => {
   return (
-    <div
-      key={index}
-      onClick={() => setActiveNavIndex(index)}
-       className={
-      'flex space-x-3 p-2 rounded cursor-pointer ' +
-      (activeNavIndex === index
-        ? 'bg-red-400 text-white font-semibold'
-        : 'hover:bg-gray-100')
-    }
+    <motion.div
+      animate={isExpanded ? "expanded" : "nonexpanded"}
+      variants={variants}
+      className={
+        "py-10 h-screen flex flex-col border border-r-2 bg-[#FDFDFD] relative" +
+        (isExpanded ? " px-10" : " px-2 duration-500")
+      }
     >
-      <item.icon />
-      <span>{item.name}</span>
-    </div>
-  )
-})}
+      <div
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="cursor-pointer absolute -right-3 top-10 rounded-full w-6 h-6 bg-[#FF8C8C] md:flex hidden justify-center items-center"
+      >
+        <img src={RightArrowIcon} className="w-2" />
+      </div>
 
-        </div>
-        </motion.div>
-    )
-    
+      <div className="logo-div flex space-x-4 items-center">
+        <img src={Logo} className="md:w-6 w-4 ml-2" />
+        <span className={!isExpanded ? "hidden" : "block"}>Money Tracker</span>
+      </div>
+
+      <div className="flex flex-col space-y-8 mt-12">
+        {navLinks.map((item, index) => (
+          <div className="nav-links w-full" key={index}>
+            <div
+              onClick={() => setActiveIndex(index)}
+              className={
+                "flex space-x-3 w-full p-2 rounded " +
+                (activeIndex === index
+                  ? "bg-[#FF8C8C] text-white"
+                  : " text-black") +
+                (!isExpanded ? " pl-3" : "")
+              }
+            >
+              <item.icon className="md:w-6 w-4" />
+              <span className={!isExpanded ? "hidden" : "block"}>
+                {item.link}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
 }
-export default NavigationBar
+
+export default Navbar;
