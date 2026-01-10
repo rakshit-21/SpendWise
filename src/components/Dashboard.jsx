@@ -1,43 +1,87 @@
-import React from "react"
-import Chart from "./Chart"
+import React from "react";
+import Chart from "./Chart";
+import { ArrowLeftRight, Clock4, Wallet } from "lucide-react";
 
 function Dashboard() {
   return (
-    <div className="flex flex-col py-10 lg:px-16 md:px-10 px-6 h-screen overflow-y-auto w-full">
-      <h2 className="lg:text-3xl md:text-2xl text-xl">Dashboard</h2>
-
-      <div className="md:flex md:space-x-8 py-6">
-        <div className="flex flex-col rounded-md border md:w-[400px] w-[250px] h-[150px] md:p-8 p-4 justify-center">
-          <h2>Unknown User</h2>
-          <p className="text-gray-500 mt-3">Your Expenses: Rs10000</p>
+    <div className="flex-1 overflow-y-auto bg-gray-50">
+      <div className="p-8 max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-500 mt-1">Welcome back! Here's your financial overview</p>
         </div>
 
-        <div className="flex flex-col rounded-md border md:w-[400px] w-[250px] h-[150px] md:p-8 p-4 justify-center md:mt-0 mt-4">
-          <h2>Unknown User</h2>
-          <p className="text-gray-500 mt-3">Your Savings: Rs100000</p>
-        </div>
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-medium text-gray-500">Total Expenses</h3>
+              <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
+                <ArrowLeftRight className="w-5 h-5 text-red-500" />
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-gray-900">₹10,000</p>
+            <p className="text-sm text-gray-500 mt-2">This month</p>
+          </div>
 
-      <div className="flex space-x-8 py-6 w-4/5">
-        <div className="flex flex-col rounded-md border w-full p-8 justify-center">
-          Expenses Graph
-          <Chart />
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-medium text-gray-500">Total Savings</h3>
+              <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
+                <Wallet className="w-5 h-5 text-green-500" />
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-gray-900">₹1,00,000</p>
+            <p className="text-sm text-green-600 mt-2">+12% from last month</p>
+          </div>
         </div>
-      </div>
 
-      <div className="md:flex md:space-x-8 py-6">
-        <div className="flex flex-col rounded-md border md:w-[400px] w-[250px] h-[200px] md:p-8 p-4 justify-center">
-          <h2>Your Activity</h2>
-          <li className="text-gray-500 mt-3">Sent Rs 10000 to mother</li>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">Expenses Overview</h3>
+          <div className="h-80">
+            <Chart />
+          </div>
         </div>
 
-        <div className="flex flex-col rounded-md border md:w-[400px] w-[250px] h-[200px] md:p-8 p-4 justify-center md:mt-0 mt-4">
-          <h2>Pending Bills</h2>
-          <li className="text-gray-500 mt-3">Broadband bill: Rs 1000</li>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                    <ArrowLeftRight className="w-5 h-5 text-indigo-600" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Sent to Mother</p>
+                    <p className="text-sm text-gray-500">2 days ago</p>
+                  </div>
+                </div>
+                <span className="font-semibold text-gray-900">₹10,000</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Pending Bills</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <Clock4 className="w-5 h-5 text-red-600" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Broadband Bill</p>
+                    <p className="text-sm text-red-600">Due in 3 days</p>
+                  </div>
+                </div>
+                <span className="font-semibold text-gray-900">₹1,000</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

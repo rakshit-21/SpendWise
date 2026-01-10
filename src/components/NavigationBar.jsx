@@ -1,108 +1,54 @@
-import React, { useState, useEffect } from "react";
-import Logo from "../assets/Logo.png";
-import {
-  ArrowLeftRightIcon,
-  BarChart3Icon,
-  Clock4Icon,
-  LayoutDashboard,
-  HelpCircleIcon,
-} from "lucide-react";
-import { motion } from "framer-motion";
-
-import RightArrowIcon from "./../assets/icons/rightArrow.svg";
-
-const variants = {
-  // todo: change expanded to 30% and nonexpanded to %6
-  expanded: { width: "220px" },
-  nonexpanded: { width: "60px" },
-};
+import React from "react";
+import { LayoutDashboard, Clock4, BarChart3, ArrowLeftRight, HelpCircle, ChevronLeft, ChevronRight, Wallet } from "lucide-react";
 
 const navLinks = [
-  {
-    link: "Dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    link: "Activity",
-    icon: Clock4Icon,
-  },
-  {
-    link: "Analytics",
-    icon: BarChart3Icon,
-  },
-  {
-    link: "Transactions",
-    icon: ArrowLeftRightIcon,
-  },
-  {
-    link: "Support",
-    icon: HelpCircleIcon,
-  },
+  { link: "Dashboard", icon: LayoutDashboard },
+  { link: "Activity", icon: Clock4 },
+  { link: "Analytics", icon: BarChart3 },
+  { link: "Transactions", icon: ArrowLeftRight },
+  { link: "Support", icon: HelpCircle },
 ];
 
-function Navbar() {
-  // todo: change to true
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  // screen resize
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      if (windowWidth < 768) {
-        setIsExpanded(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
+function Navbar({ isExpanded, setIsExpanded, activeIndex, setActiveIndex }) {
   return (
-    <motion.div
-      animate={isExpanded ? "expanded" : "nonexpanded"}
-      variants={variants}
-      className={
-        "py-10 h-screen flex flex-col border border-r-2 bg-[#FDFDFD] relative" +
-        (isExpanded ? " px-10" : " px-2 duration-500")
-      }
-    >
-      <div
+    <div className={`h-screen flex flex-col bg-white border-r border-gray-200 relative transition-all duration-300 ease-in-out ${isExpanded ? "w-64" : "w-20"}`}>
+      <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="cursor-pointer absolute -right-3 top-10 rounded-full w-6 h-6 bg-[#FF8C8C] md:flex hidden justify-center items-center"
+        className="absolute -right-3 top-8 rounded-full w-7 h-7 bg-indigo-500 hover:bg-indigo-600 hidden md:flex justify-center items-center shadow-lg transition-colors duration-200 z-10 cursor-pointer"
       >
-        <img src={RightArrowIcon} className="w-2" />
+        {isExpanded ? <ChevronLeft className="w-4 h-4 text-white" /> : <ChevronRight className="w-4 h-4 text-white" />}
+      </button>
+
+      <div className="p-6 flex items-center space-x-3">
+        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+          <Wallet className="w-6 h-6 text-white" />
+        </div>
+        {isExpanded && (
+          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            SpendWise
+          </span>
+        )}
       </div>
 
-      <div className="logo-div flex space-x-4 items-center">
-        <img src={Logo} className="md:w-6 w-4 ml-2" />
-        <span className={!isExpanded ? "hidden" : "block"}>Money Tracker</span>
-      </div>
-
-      <div className="flex flex-col space-y-8 mt-12">
-        {navLinks.map((item, index) => (
-          <div className="nav-links w-full" key={index}>
-            <div
+      <nav className="flex-1 px-3 mt-8">
+        <div className="space-y-2">
+          {navLinks.map((item, index) => (
+            <button
+              key={index}
               onClick={() => setActiveIndex(index)}
-              className={
-                "flex space-x-3 w-full p-2 rounded " +
-                (activeIndex === index
-                  ? "bg-[#FF8C8C] text-white"
-                  : " text-black") +
-                (!isExpanded ? " pl-3" : "")
-              }
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                activeIndex === index
+                  ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-200"
+                  : "text-gray-600 hover:bg-gray-50"
+              } ${!isExpanded && "justify-center"}`}
             >
-              <item.icon className="md:w-6 w-4" />
-              <span className={!isExpanded ? "hidden" : "block"}>
-                {item.link}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
+              <item.icon className="w-5 h-5 flex-shrink-0" />
+              {isExpanded && <span className="font-medium text-sm">{item.link}</span>}
+            </button>
+          ))}
+        </div>
+      </nav>
+    </div>
   );
 }
 
