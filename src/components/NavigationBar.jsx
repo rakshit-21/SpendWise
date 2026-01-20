@@ -1,5 +1,5 @@
 import React from "react";
-import { LayoutDashboard, Clock4, BarChart3, ArrowLeftRight, HelpCircle, ChevronLeft, ChevronRight, Wallet } from "lucide-react";
+import { LayoutDashboard, Clock4, BarChart3, ArrowLeftRight, HelpCircle, ChevronLeft, ChevronRight, Wallet, LogOut } from "lucide-react";
 
 const navLinks = [
   { link: "Dashboard", icon: LayoutDashboard },
@@ -9,12 +9,12 @@ const navLinks = [
   { link: "Support", icon: HelpCircle },
 ];
 
-function Navbar({ isExpanded, setIsExpanded, activeIndex, setActiveIndex }) {
+function Navbar({ isExpanded, setIsExpanded, activeIndex, setActiveIndex, onLogout }) {
   return (
     <div className={`h-screen flex flex-col bg-white border-r border-gray-200 relative transition-all duration-300 ease-in-out ${isExpanded ? "w-64" : "w-20"}`}>
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="absolute -right-3 top-8 rounded-full w-7 h-7 bg-indigo-500 hover:bg-indigo-600 hidden md:flex justify-center items-center shadow-lg transition-colors duration-200 z-10 cursor-pointer"
+        className="absolute -right-3 top-8 rounded-full w-7 h-7 bg-indigo-500 hover:bg-indigo-600 hidden md:flex justify-center items-center shadow-lg transition-colors duration-200 z-10"
       >
         {isExpanded ? <ChevronLeft className="w-4 h-4 text-white" /> : <ChevronRight className="w-4 h-4 text-white" />}
       </button>
@@ -48,6 +48,17 @@ function Navbar({ isExpanded, setIsExpanded, activeIndex, setActiveIndex }) {
           ))}
         </div>
       </nav>
+
+      {/* Logout Button */}
+      <div className="p-3 border-t border-gray-200">
+        <button
+          onClick={onLogout}
+          className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 ${!isExpanded && "justify-center"}`}
+        >
+          <LogOut className="w-5 h-5 flex-shrink-0" />
+          {isExpanded && <span className="font-medium text-sm">Logout</span>}
+        </button>
+      </div>
     </div>
   );
 }
