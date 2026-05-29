@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Wallet, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 
-const API = "http://localhost:5000/api/auth";
+const API = "https://spendwise-90v0.onrender.com/api/auth";
 
 function Login({ onLogin }) {
   const [isSignUp, setIsSignUp] = useState(false);
