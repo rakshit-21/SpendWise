@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://spendwise-90v0.onrender.com/api',  // ← your Render URL
+  baseURL: 'https://spendwise-90v0.onrender.com/api',
 });
 
 api.interceptors.request.use((config) => {
