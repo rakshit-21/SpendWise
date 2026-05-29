@@ -9,21 +9,24 @@ const insightRoutes = require('./routes/insights');
 
 const app = express();
 
-// ✅ Allow all origins (fixes Render + Vercel)
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://spend-wise-eight-lemon.vercel.app',  // ← your exact Vercel URL
+  ],
+  credentials: true,
+}));
+
 app.use(express.json());
 
-// Test route
 app.get('/api', (req, res) => {
   res.json({ message: '✅ SpendWise API is running' });
 });
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/insights', insightRoutes);
 
-// MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB Connected'))
   .catch((err) => console.error('❌ MongoDB Error:', err));
